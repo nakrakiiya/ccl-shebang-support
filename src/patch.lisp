@@ -13,6 +13,16 @@
            (make-pathname :defaults (ccl::kernel-path)
                           :name (concatenate 'string (pathname-name (ccl::kernel-path)) "-script"))
            :if-exists :supersede)
+
+;; change mode for linux executable
+#+linux
+(ccl:run-program "/bin/sh" (list "-c"
+                                 (concatenate 'string
+                                              "chmod +x "
+                                              (native-translated-namestring
+                                               (make-pathname :defaults (ccl::kernel-path)
+                                                              :name (concatenate 'string (pathname-name (ccl::kernel-path)) "-script"))))))
+
 ;; save the image
 (ccl:save-application
  (make-pathname :defaults (ccl::kernel-path)
